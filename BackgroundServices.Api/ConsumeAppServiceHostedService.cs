@@ -3,13 +3,13 @@ namespace BackgroundServices.Api;
 public class ConsumeAppServiceHostedService : BackgroundService
 {
     private readonly ILogger<ConsumeAppServiceHostedService> _logger;
-    public IAppService AppService { get; }
+    private readonly IAppService _appService;
 
     public ConsumeAppServiceHostedService(ILogger<ConsumeAppServiceHostedService> logger,
         [FromKeyedServices("app")] IAppService appAppService)
     {
         _logger = logger;
-        AppService = appAppService;
+        _appService = appAppService;
     }
     
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -23,7 +23,7 @@ public class ConsumeAppServiceHostedService : BackgroundService
     {
         _logger.LogInformation("ConsumeAppServiceHostedService is doing background work.");
 
-        await AppService.DoWork(stoppingToken);
+        await _appService.DoWork(stoppingToken);
     }
 
     public override async Task StopAsync(CancellationToken stoppingToken)
