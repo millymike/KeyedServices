@@ -3,16 +3,18 @@ namespace BackgroundServices.Api;
 public class AppBackgroundService : IHostedLifecycleService
 {
     private readonly ILogger<AppBackgroundService> _logger;
+    private readonly IAppService _appService;
 
-    public AppBackgroundService(ILogger<AppBackgroundService> logger)
+    public AppBackgroundService(ILogger<AppBackgroundService> logger, [FromKeyedServices("app")] IAppService appService)
     {
         _logger = logger;
+        _appService = appService;
     }
 
-    public Task StartAsync(CancellationToken cancellationToken)
+    public async Task StartAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("start AppBackgroundService");
-        return Task.CompletedTask;
+        await _appService.DoWork(cancellationToken);
     }
 
     public Task StopAsync(CancellationToken cancellationToken)

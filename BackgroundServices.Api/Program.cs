@@ -7,7 +7,7 @@ builder.Services.Configure<HostOptions>(x =>
     x.ServicesStopConcurrently = false;
 });
 
-builder.Services.AddHostedService<ConsumeAppServiceHostedService>();
+builder.Services.AddHostedService<AppBackgroundService>();
 builder.Services.AddKeyedSingleton<IAppService, AppService>("app");
 
 
